@@ -6,54 +6,33 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 18:00:01 by minabe            #+#    #+#             */
-/*   Updated: 2023/12/10 18:38:15 by minabe           ###   ########.fr       */
+/*   Updated: 2023/12/11 16:07:35 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-#include <unistd.h>
-#include <cstring>
-#include <errno.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <sys/ioctl.h>
-#include <netinet/in.h>
+#include "Socket.hpp"
 
 void	nonBlockingSocket(void)
 {
-	int	sockfd;
-	struct sockaddr_in	addr;
-	char	buf[2048];
-	int	n;
-	int	val;
+	Socket	sock;
 
-	sockfd = socket(AF_INET, SOCK_DGRAM, 0);
-	if (sockfd < 0)
-	{
-		std::cerr << "socket error" << std::endl;
-		exit(EXIT_FAILURE);
-	}
-	addr.sin_family = AF_INET;
-	addr.sin_port = htons(12345);
-	addr.sin_addr.s_addr = INADDR_ANY;
-	
+	sock.createSocket();
+	sock.setPort(12345);
+	sock.setIp("");
 	/*
 	ここで、ノンブロッキングに設定しています。
 	val = 0でブロッキングモードに設定できます。
 	ソケットの初期設定はブロッキングモードです。
 	*/
-	val = 1;
-	ioctl(sockfd, FIONBIO, &val);
-	
-	if (bind(sockfd, (struct sockaddr *)&addr, sizeof(addr)) < 0)
-	{
-		std::cerr << "bind error" << std::endl;
-		exit(EXIT_FAILURE);
-	}
+	sock.nonBlockingSocket();
+	sock.bindSocket();
+
+	char	buf[1024];
+	int		n;
 	while (true)
 	{
 		memset(buf, 0, sizeof(buf));
-		n = recv(sockfd, buf, sizeof(buf), 0);
+		n = recv(sock.getSocketfd(), buf, sizeof(buf), 0);
 		if (n < 1)
 		{
 			if (errno == EAGAIN)
@@ -71,7 +50,7 @@ void	nonBlockingSocket(void)
 		}
 		sleep(1);
 	}
-	close(sockfd);
+	sock.closeSocket();
 }
 
 int	main(int argc, char **argv)
