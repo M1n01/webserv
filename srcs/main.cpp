@@ -6,7 +6,7 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 18:00:01 by minabe            #+#    #+#             */
-/*   Updated: 2023/12/12 19:24:22 by minabe           ###   ########.fr       */
+/*   Updated: 2023/12/12 19:25:21 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	nonBlockingSocket(void)
 	sock.bindSocket();
 	sock.nonBlockingSocket();
 
-	char	buf[1024];
+	char	buf[2048];
 	int		n;
 	while (true)
 	{
