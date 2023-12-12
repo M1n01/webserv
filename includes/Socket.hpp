@@ -6,7 +6,7 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 08:50:12 by minabe            #+#    #+#             */
-/*   Updated: 2023/12/11 08:54:27 by minabe           ###   ########.fr       */
+/*   Updated: 2023/12/11 16:16:40 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 # define SOCKET_HPP
 
 # include <iostream>
-# include <string>
-# include <sys/socket.h>
-# include <netinet/in.h>
-# include <arpa/inet.h>
 # include <unistd.h>
+# include <cstring>
+# include <errno.h>
+# include <sys/types.h>
+# include <sys/socket.h>
+# include <sys/ioctl.h>
+# include <netinet/in.h>
 # include <fcntl.h>
 
 class Socket
@@ -28,13 +30,13 @@ class Socket
 		int					_port;
 		std::string			_ip;
 		struct sockaddr_in	_addr;
-		int					_nonblock = 1;
+		static const int	_nonblock = 1;
 
 	public:
 		Socket(void);
 		Socket(int port, std::string ip);
 		Socket(Socket const &src);
-		Socket &operator=(Socket const &rhs);
+		Socket	&operator=(Socket const &rhs);
 		~Socket(void);
 
 		int					getSocketfd(void) const;
@@ -49,6 +51,7 @@ class Socket
 		void				setAddr(struct sockaddr_in addr);
 
 		void				createSocket(void);
+		void				nonBlockingSocket(void);
 		void				bindSocket(void);
 		void				listenSocket(void);
 		void				acceptSocket(void);
