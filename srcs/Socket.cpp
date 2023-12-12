@@ -6,11 +6,11 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 15:53:41 by minabe            #+#    #+#             */
-/*   Updated: 2023/12/12 19:22:41 by minabe           ###   ########.fr       */
+/*   Updated: 2023/12/12 19:42:00 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Socket.hpp"
+#include "../includes/Socket.hpp"
 
 const int	Socket::_nonblock;
 
