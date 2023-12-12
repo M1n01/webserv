@@ -6,7 +6,7 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 15:53:41 by minabe            #+#    #+#             */
-/*   Updated: 2023/12/11 16:19:32 by minabe           ###   ########.fr       */
+/*   Updated: 2023/12/12 19:22:41 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	Socket::setAddr(struct sockaddr_in addr)
 
 void	Socket::createSocket(void)
 {
-	_socketfd = socket(AF_INET, SOCK_STREAM, 0);
+	_socketfd = socket(AF_INET, SOCK_DGRAM, 0);
 	if (_socketfd < 0)
 	{
 		std::cerr << "Error: socket creation failed" << std::endl;
@@ -112,6 +112,7 @@ void	Socket::bindSocket(void)
 	_addr.sin_family = AF_INET;
 	_addr.sin_port = htons(_port);
 	_addr.sin_addr.s_addr = INADDR_ANY;
+	_addr.sin_len = sizeof(_addr);
 	if (bind(_socketfd, (struct sockaddr *)&_addr, sizeof(_addr)) < 0)
 	{
 		std::cerr << "Error: socket binding failed" << std::endl;

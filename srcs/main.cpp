@@ -6,7 +6,7 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 18:00:01 by minabe            #+#    #+#             */
-/*   Updated: 2023/12/11 16:07:35 by minabe           ###   ########.fr       */
+/*   Updated: 2023/12/12 19:24:22 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,16 @@
 
 void	nonBlockingSocket(void)
 {
-	Socket	sock;
+	Socket	sock(8080, "");
 
 	sock.createSocket();
-	sock.setPort(12345);
-	sock.setIp("");
 	/*
 	ここで、ノンブロッキングに設定しています。
 	val = 0でブロッキングモードに設定できます。
 	ソケットの初期設定はブロッキングモードです。
 	*/
-	sock.nonBlockingSocket();
 	sock.bindSocket();
+	sock.nonBlockingSocket();
 
 	char	buf[1024];
 	int		n;
