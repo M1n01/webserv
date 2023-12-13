@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   socket.hpp                                         :+:      :+:    :+:   */
+/*   Socket.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 08:50:12 by minabe            #+#    #+#             */
-/*   Updated: 2023/12/11 16:16:40 by minabe           ###   ########.fr       */
+/*   Updated: 2023/12/13 23:07:34 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,7 @@ class Socket
 		struct sockaddr_in	getAddr(void) const;
 		int					getNonblock(void) const;
 
-		void				setSocketfd(int socketfd);
-		void				setPort(int port);
-		void				setIp(std::string ip);
-		void				setAddr(struct sockaddr_in addr);
+		void				setSockAddr(void);
 
 		void				createSocket(void);
 		void				nonBlockingSocket(void);

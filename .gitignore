@@ -3,3 +3,4 @@ webserv
 a.out
 objs
 .vscode
+client.cpp

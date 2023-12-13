@@ -6,15 +6,16 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 15:53:41 by minabe            #+#    #+#             */
-/*   Updated: 2023/12/12 19:42:00 by minabe           ###   ########.fr       */
+/*   Updated: 2023/12/13 23:12:38 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/Socket.hpp"
+#include "Socket.hpp"
+#include "config.hpp"
 
 const int	Socket::_nonblock;
 
-Socket::Socket(void) : _socketfd(0), _port(0), _ip("")
+Socket::Socket(void) : _socketfd(0), _port(PORT), _ip(IP_ADDRESS)
 {
 	bzero(&_addr, sizeof(_addr));
 }
@@ -68,24 +69,12 @@ int	Socket::getNonblock(void) const
 	return (_nonblock);
 }
 
-void	Socket::setSocketfd(int socketfd)
+void	Socket::setSockAddr(void)
 {
-	_socketfd = socketfd;
-}
-
-void	Socket::setPort(int port)
-{
-	_port = port;
-}
-
-void	Socket::setIp(std::string ip)
-{
-	_ip = ip;
-}
-
-void	Socket::setAddr(struct sockaddr_in addr)
-{
-	_addr = addr;
+	_addr.sin_family = AF_INET;
+	_addr.sin_port = htons(_port);
+	_addr.sin_addr.s_addr = INADDR_ANY;
+	_addr.sin_len = sizeof(_addr);
 }
 
 void	Socket::createSocket(void)
@@ -96,6 +85,10 @@ void	Socket::createSocket(void)
 		std::cerr << "Error: socket creation failed" << std::endl;
 		exit(EXIT_FAILURE);
 	}
+	setSockAddr();
+	bindSocket();
+	// listenSocket();
+	nonBlockingSocket();
 }
 
 void	Socket::nonBlockingSocket(void)
@@ -109,10 +102,6 @@ void	Socket::nonBlockingSocket(void)
 
 void	Socket::bindSocket(void)
 {
-	_addr.sin_family = AF_INET;
-	_addr.sin_port = htons(_port);
-	_addr.sin_addr.s_addr = INADDR_ANY;
-	_addr.sin_len = sizeof(_addr);
 	if (bind(_socketfd, (struct sockaddr *)&_addr, sizeof(_addr)) < 0)
 	{
 		std::cerr << "Error: socket binding failed" << std::endl;
@@ -122,7 +111,7 @@ void	Socket::bindSocket(void)
 
 void	Socket::listenSocket(void)
 {
-	if (listen(_socketfd, 3) < 0)
+	if (listen(_socketfd, MAX_CONNECTIONS) < 0)
 	{
 		std::cerr << "Error: socket listening failed" << std::endl;
 		exit(EXIT_FAILURE);

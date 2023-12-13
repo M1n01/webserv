@@ -6,15 +6,16 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 18:00:01 by minabe            #+#    #+#             */
-/*   Updated: 2023/12/12 19:42:51 by minabe           ###   ########.fr       */
+/*   Updated: 2023/12/13 23:12:44 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Socket.hpp"
+#include "config.hpp"
 
 void	nonBlockingSocket(void)
 {
-	Socket	sock(80, "");
+	Socket	sock(PORT, IP_ADDRESS);
 
 	sock.createSocket();
 	/*
@@ -22,14 +23,12 @@ void	nonBlockingSocket(void)
 	val = 0でブロッキングモードに設定できます。
 	ソケットの初期設定はブロッキングモードです。
 	*/
-	sock.bindSocket();
-	sock.nonBlockingSocket();
 
-	char	buf[2048];
+	char	buf[BUFFER_SIZE];
 	int		n;
 	while (true)
 	{
-		memset(buf, 0, sizeof(buf));
+		bzero(buf, sizeof(buf));
 		n = recv(sock.getSocketfd(), buf, sizeof(buf), 0);
 		if (n < 1)
 		{
