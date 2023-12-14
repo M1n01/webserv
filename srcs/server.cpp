@@ -6,7 +6,7 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 18:00:01 by minabe            #+#    #+#             */
-/*   Updated: 2023/12/13 23:12:44 by minabe           ###   ########.fr       */
+/*   Updated: 2023/12/14 10:09:51 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 void	nonBlockingSocket(void)
 {
 	Socket	sock(PORT, IP_ADDRESS);
+	int		accfd = -1; // この変数まだ未使用
+	bool	is_file = false;
 
 	sock.createSocket();
 	/*
@@ -25,20 +27,15 @@ void	nonBlockingSocket(void)
 	*/
 
 	char	buf[BUFFER_SIZE];
-	int		n;
+	int		read_size;
 	while (true)
 	{
 		bzero(buf, sizeof(buf));
-		n = recv(sock.getSocketfd(), buf, sizeof(buf), 0);
-		if (n < 1)
+		read_size = recv(sock.getSocketfd(), buf, sizeof(buf), 0);
+		if (read_size < 1)
 		{
-			if (errno == EAGAIN)
-				std::cout << "まだデータは来ていない" << std::endl;
-			else
-			{
-				strerror(errno);
-				break ;
-			}
+			std::cout << "まだデータは来ていない" << std::endl;
+			std::cout << "errno: " << errno << std::endl;
 		}
 		else
 		{

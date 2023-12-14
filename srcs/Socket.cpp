@@ -6,7 +6,7 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 15:53:41 by minabe            #+#    #+#             */
-/*   Updated: 2023/12/13 23:12:38 by minabe           ###   ########.fr       */
+/*   Updated: 2023/12/14 08:33:48 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	Socket::setSockAddr(void)
 
 void	Socket::createSocket(void)
 {
-	_socketfd = socket(AF_INET, SOCK_DGRAM, 0);
+	_socketfd = socket(AF_INET, SOCK_STREAM, 0);
 	if (_socketfd < 0)
 	{
 		std::cerr << "Error: socket creation failed" << std::endl;
@@ -87,7 +87,7 @@ void	Socket::createSocket(void)
 	}
 	setSockAddr();
 	bindSocket();
-	// listenSocket();
+	listenSocket();
 	nonBlockingSocket();
 }
 
