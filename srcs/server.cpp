@@ -6,7 +6,7 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 18:00:01 by minabe            #+#    #+#             */
-/*   Updated: 2023/12/14 10:09:51 by minabe           ###   ########.fr       */
+/*   Updated: 2023/12/14 11:50:50 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 void	nonBlockingSocket(void)
 {
 	Socket	sock(PORT, IP_ADDRESS);
-	int		accfd = -1; // この変数まだ未使用
-	bool	is_file = false;
+	// int		accfd = -1; // この変数まだ未使用
+	// bool	is_file = false;
 
 	sock.createSocket();
 	/*

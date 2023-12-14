@@ -1,37 +1,46 @@
-NAME = webserv
-CXX = c++
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic-errors $(LDFLAGS) -MMD -MP
-LDFLAGS = -I$(INCDIR)
+# コンパイラとフラグの定義
+CXX := g++
+CXXFLAGS := -Wall -Werror -Wextra -pedantic-error -std=c++98
+LDFLAGS :=
+INCLUDES := -Iincludes
 
-INCDIR = ./includes
-SRCDIR = ./srcs
-OBJDIR = ./objs
+# ソースファイルとオブジェクトファイルの定義
+COMMON_SRCS := $(wildcard srcs/Socket.cpp srcs/config.cpp)
+COMMON_OBJS := $(COMMON_SRCS:srcs/%.cpp=objs/%.o)
+SERVER_SRCS := srcs/server.cpp
+CLIENT_SRCS := srcs/client.cpp
+SERVER_OBJS := $(SERVER_SRCS:srcs/%.cpp=objs/%.o)
+CLIENT_OBJS := $(CLIENT_SRCS:srcs/%.cpp=objs/%.o)
+DEPS := $(OBJS:.o=.d)
 
-INCS = $(shell find $(INCDIR) -name "*.hpp")
-SRCS = $(shell find $(SRCDIR) -name '*.cpp')
-OBJS = $(SRCS:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
-DEPS = $(OBJS:.o=.d)
+# 実行ファイルの名前
+SERVER := server
+CLIENT := client
 
-all: $(NAME)
+# デフォルトターゲット
+all: $(SERVER) $(CLIENT)
 
-$(NAME): $(OBJS)
-	$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
+# サーバーとクライアントのビルド
+$(SERVER): $(SERVER_OBJS) $(COMMON_OBJS)
+	$(CXX) $(LDFLAGS) $^ -o $@
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.cpp
-	@mkdir -p $(@D)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+$(CLIENT): $(CLIENT_OBJS) $(COMMON_OBJS)
+	$(CXX) $(LDFLAGS) $^ -o $@
 
+# オブジェクトファイルのビルドルール
+objs/%.o: srcs/%.cpp
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -MMD -MP -c $< -o $@
+
+# 依存関係ファイルのインクルード
 -include $(DEPS)
 
+# クリーンルール
 clean:
-	$(RM) -r $(OBJDIR) $(DEPS) *_shrubbery
+	$(RM) $(SERVER) $(CLIENT) $(OBJS) $(DEPS)
 
 fclean: clean
-	$(RM) $(NAME)
+	$(RM) $(SERVER) $(CLIENT)
 
 re: fclean all
 
-debug: CXXFLAGS += -g -fsanitize=address
-debug: re
-
-.PHONY: all clean fclean re debu
+.PHONY: all clean fclean re
