@@ -10,5 +10,6 @@ fn main() {
             "config/default.json".to_string()
         };
         println!("Config file path: {}", config_file_path);
+        let file: Result<File, Error> = File::open(config_file_path);
     }
 }
