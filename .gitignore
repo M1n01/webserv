@@ -1,8 +1,8 @@
-webserv
-.DS_Store
-a.out
-objs
-.vscode
-client.cpp
-server
-client
+Makefile
+main
+Cargo.lock
+Cargo.toml
+rustfmt.toml
+# Added by cargo
+
+/target

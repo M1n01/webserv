@@ -1,0 +1,73 @@
+{
+    "server":
+    {
+        "port": 8080,
+        "listen": "localhost",
+
+        "location":
+        {
+            "/":
+            {
+                "allow_method": [
+                    "GET",
+                    "POST",
+                    "DELETE"
+                ],
+                "root": "/var/www"
+            }
+        },
+
+        "location1":
+        {
+            "/redirect":
+            {
+                "allow_method": [
+                    "GET"
+                ],
+                "redirect": "http://www.google.com"
+            }
+        },
+
+        "location2":
+        {
+            "/cgi-bin":
+            {
+                "allow_method": [
+                    "GET",
+                    "POST"
+                ],
+                "cgi": "/var/www/cgi-bin"
+            }
+        },
+
+        "location3":
+        {
+            "/upload":
+            {
+                "allow_method": [
+                    "POST"
+                ],
+                "upload": "/var/www/upload"
+            }
+        }
+    },
+
+    "server1":
+    {
+        "port": 80,
+        "listen": "127.0.0.1",
+
+        "location":
+        {
+            "/":
+            {
+                "allow_method": [
+                    "GET",
+                    "POST",
+                    "DELETE"
+                ],
+                "root": "/var/www"
+            }
+        }
+    }
+}
