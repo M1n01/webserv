@@ -3,12 +3,13 @@
     {
         "port": 8080,
         "listen": "localhost",
+        "error_page": "/var/www/error.html",
 
-        "location":
+        "route":
         {
             "/":
             {
-                "allow_method": [
+                "allow_methods": [
                     "GET",
                     "POST",
                     "DELETE"
@@ -17,7 +18,7 @@
             }
         },
 
-        "location1":
+        "route1":
         {
             "/redirect":
             {
@@ -28,7 +29,7 @@
             }
         },
 
-        "location2":
+        "route2":
         {
             "/cgi-bin":
             {
@@ -40,7 +41,7 @@
             }
         },
 
-        "location3":
+        "route3":
         {
             "/upload":
             {
@@ -57,7 +58,7 @@
         "port": 80,
         "listen": "127.0.0.1",
 
-        "location":
+        "route":
         {
             "/":
             {
