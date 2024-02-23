@@ -1,74 +1,41 @@
 {
-    "server":
-    {
+    "servers": [
+      {
+        "host": "127.0.0.1",
         "port": 8080,
-        "listen": "localhost",
-        "error_page": "/var/www/error.html",
-
-        "route":
-        {
-            "/":
-            {
-                "allow_methods": [
-                    "GET",
-                    "POST",
-                    "DELETE"
-                ],
-                "root": "/var/www"
-            }
+        "server_names": ["example.com", "www.example.com"],
+        "default_error_pages": {
+          "404": "/404.html",
+          "500": "/500.html"
         },
-
-        "route1":
-        {
-            "/redirect":
-            {
-                "allow_method": [
-                    "GET"
-                ],
-                "redirect": "http://www.google.com"
+        "client_body_size_limit": 1048576,
+        "routes": [
+          {
+            "path": "/",
+            "accepted_methods": ["GET"],
+            "source": {
+              "Directory": "/var/www/html"
+            },
+            "directory_listing": false,
+            "default_file": "index.html"
+          },
+          {
+            "path": "/api",
+            "accepted_methods": ["POST"],
+            "cgi": {
+              "extension": ".php",
+              "executable_path": "/usr/bin/php-cgi"
             }
-        },
-
-        "route2":
-        {
-            "/cgi-bin":
-            {
-                "allow_method": [
-                    "GET",
-                    "POST"
-                ],
-                "cgi": "/var/www/cgi-bin"
+          },
+          {
+            "path": "/upload",
+            "accepted_methods": ["POST"],
+            "accept_uploads": {
+              "save_path": "/var/www/uploads"
             }
-        },
-
-        "route3":
-        {
-            "/upload":
-            {
-                "allow_method": [
-                    "POST"
-                ],
-                "upload": "/var/www/upload"
-            }
-        }
-    },
-
-    "server1":
-    {
-        "port": 80,
-        "listen": "127.0.0.1",
-
-        "route":
-        {
-            "/":
-            {
-                "allow_method": [
-                    "GET",
-                    "POST",
-                    "DELETE"
-                ],
-                "root": "/var/www"
-            }
-        }
-    }
+          }
+        ]
+      }
+    ]
 }
+
